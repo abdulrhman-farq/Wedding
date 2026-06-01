@@ -108,7 +108,7 @@ export function SearchView({ onOpen, onToggleTheme, theme }: SearchViewProps) {
             {shownPeople.map((p) => (
               <button className="facechip" key={p.name} onClick={() => setFilter({ label: p.name, items: p.items })}>
                 <span className="face">
-                  <img src={p.items[0].poster} alt={p.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <img src={p.items[0].thumb} alt={p.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                 </span>
                 <span>{p.name}</span>
               </button>
@@ -123,7 +123,7 @@ export function SearchView({ onOpen, onToggleTheme, theme }: SearchViewProps) {
             return (
               <button className="album" key={c.ar} style={{ textAlign: 'start' }} onClick={() => setFilter({ label: c.ar, items })}>
                 <div className="cover">
-                  <img src={items[0].poster} alt={c.ar} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <img src={items[0].thumb} alt={c.ar} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                   <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(0,0,0,.55),transparent 60%)' }} />
                   <b style={{ position: 'absolute', insetInlineStart: 12, bottom: 10, color: '#fff', fontSize: 16, fontWeight: 500 }}>
                     {c.ar}

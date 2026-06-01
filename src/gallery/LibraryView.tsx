@@ -56,7 +56,7 @@ export function LibraryView({ onOpen, onToggleTheme, theme, onPresent }: Library
           {ALBUMS.map((a) => (
             <button className="album" key={a.id} style={{ textAlign: 'start' }} onClick={() => setAlbum(a)}>
               <div className="cover">
-                <img src={a.cover.poster} alt={a.titleAr} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                <img src={a.cover.thumb} alt={a.titleAr} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                 {a.id === 'videos' && (
                   <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', background: 'rgba(0,0,0,.25)', color: '#fff' }}>
                     <Icon name="play" size={34} />

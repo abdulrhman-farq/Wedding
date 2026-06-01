@@ -16,13 +16,15 @@ const driveImg = (id: string, w: number) => `https://drive.google.com/thumbnail?
  */
 const embedded: MediaItem[] = rawFiles.map((r, index) => {
   const isVideo = r.v === 1
+  const base = isVideo ? '' : JPEG + (r.g ?? '')
   return {
     id: r.i || `item-${index}`,
     driveId: r.i,
     name: r.n,
     isVideo,
-    poster: isVideo ? driveImg(r.i, 1000) : JPEG + (r.g ?? ''),
-    full: isVideo ? undefined : r.f ? JPEG + r.f : undefined,
+    thumb: isVideo ? driveImg(r.i, 400) : base,
+    poster: isVideo ? driveImg(r.i, 1080) : base,
+    full: isVideo ? undefined : r.f ? JPEG + r.f : base || undefined,
     driveUrl: `https://drive.google.com/file/d/${r.i}/view`,
     remote: isVideo,
     index,
@@ -38,8 +40,9 @@ const drive: MediaItem[] = driveFiles.map((r, i) => ({
   driveId: r.i,
   name: r.n,
   isVideo: false,
-  poster: driveImg(r.i, 1200),
-  full: driveImg(r.i, 2400),
+  thumb: driveImg(r.i, 400),
+  poster: driveImg(r.i, 1080),
+  full: driveImg(r.i, 1600),
   driveUrl: `https://drive.google.com/file/d/${r.i}/view`,
   remote: true,
   index: embedded.length + i,

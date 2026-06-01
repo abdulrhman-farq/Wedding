@@ -220,7 +220,7 @@ export function PhotosView({
                     >
                       <div className="media">
                         <img
-                          src={item.poster}
+                          src={item.thumb}
                           alt={item.name}
                           loading="lazy"
                           decoding="async"

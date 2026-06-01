@@ -8,6 +8,8 @@ export interface Tag {
   x: number
   y: number
   name: string
+  /** 128-d face signature, when the tag was placed on a detected face. */
+  descriptor?: number[] | null
   created_at?: string
 }
 
@@ -37,7 +39,7 @@ export async function fetchAllTags(): Promise<Tag[]> {
   if (!supabase) return []
   const { data, error } = await supabase
     .from(TABLE)
-    .select('id,item_id,x,y,name,created_at')
+    .select('id,item_id,x,y,name,descriptor,created_at')
     .order('created_at', { ascending: true })
   if (error || !data) return []
   return data as Tag[]
@@ -47,7 +49,7 @@ export async function fetchTags(itemId: string): Promise<Tag[]> {
   if (!supabase) return loadLocal(itemId)
   const { data, error } = await supabase
     .from(TABLE)
-    .select('id,item_id,x,y,name,created_at')
+    .select('id,item_id,x,y,name,descriptor,created_at')
     .eq('item_id', itemId)
     .order('created_at', { ascending: true })
   if (error || !data) return []
@@ -59,6 +61,7 @@ export async function addTag(
   x: number,
   y: number,
   name: string,
+  descriptor?: number[] | null,
 ): Promise<Tag | null> {
   const clean = name.trim().slice(0, 60)
   if (!clean) return null
@@ -70,6 +73,7 @@ export async function addTag(
       x,
       y,
       name: clean,
+      descriptor: descriptor ?? null,
       created_at: new Date().toISOString(),
     }
     saveLocal(itemId, [...loadLocal(itemId), tag])
@@ -78,8 +82,8 @@ export async function addTag(
 
   const { data, error } = await supabase
     .from(TABLE)
-    .insert({ item_id: itemId, x, y, name: clean })
-    .select('id,item_id,x,y,name,created_at')
+    .insert({ item_id: itemId, x, y, name: clean, descriptor: descriptor ?? null })
+    .select('id,item_id,x,y,name,descriptor,created_at')
     .single()
   if (error || !data) return null
   return data as Tag

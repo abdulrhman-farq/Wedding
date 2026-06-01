@@ -30,6 +30,8 @@ export const config = {
      * (backed by Supabase). On by default.
      */
     peopleTagging: true,
+    /** In-browser face recognition that suggests names from already-tagged faces. */
+    faceSuggestions: true,
     /** Global "most-loved moments" leaderboard backed by Supabase. Off by default. */
     supabaseLeaderboard: false,
     /** Gold-sparkle confetti burst on a Love swipe (respects prefers-reduced-motion). */

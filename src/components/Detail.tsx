@@ -135,7 +135,7 @@ export function Detail({ item, onClose }: DetailProps) {
               </button>
             )}
 
-            {showTagLayer && <TagLayer itemId={item.id} active={tagging} />}
+            {showTagLayer && <TagLayer item={item} active={tagging} />}
           </motion.div>
         )}
       </div>

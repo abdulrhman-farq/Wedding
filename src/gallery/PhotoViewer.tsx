@@ -159,7 +159,7 @@ export function PhotoViewer({ list, index, onClose }: PhotoViewerProps) {
             referrerPolicy="no-referrer"
             className="block max-h-[100dvh] max-w-[100vw] select-none object-contain"
           />
-          {taggingEnabled && <TagLayer itemId={item.id} active={tagging} />}
+          {taggingEnabled && <TagLayer item={item} active={tagging} />}
         </motion.div>
       </div>
 

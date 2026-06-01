@@ -33,10 +33,10 @@ export const favoritesStore = {
  */
 export async function recordLoveGlobally(itemId: string, name: string): Promise<void> {
   const { supabaseLeaderboard } = config.features
-  const { url, anonKey, table } = config.supabase
+  const { url, anonKey, lovesTable } = config.supabase
   if (!supabaseLeaderboard || !url || !anonKey) return
   try {
-    await fetch(`${url}/rest/v1/${table}`, {
+    await fetch(`${url}/rest/v1/${lovesTable}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

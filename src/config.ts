@@ -25,6 +25,11 @@ export const config = {
   },
 
   features: {
+    /**
+     * Tag people in any moment and sync the names live to every guest
+     * (backed by Supabase). On by default.
+     */
+    peopleTagging: true,
     /** Global "most-loved moments" leaderboard backed by Supabase. Off by default. */
     supabaseLeaderboard: false,
     /** Gold-sparkle confetti burst on a Love swipe (respects prefers-reduced-motion). */
@@ -36,9 +41,13 @@ export const config = {
   },
 
   supabase: {
-    url: import.meta.env.VITE_SUPABASE_URL ?? '',
-    anonKey: import.meta.env.VITE_SUPABASE_ANON_KEY ?? '',
-    table: 'wedding_loves',
+    // Publishable keys are public by design (protected by Row Level Security).
+    // Env vars take precedence so the project can be re-pointed without a code change.
+    url: import.meta.env.VITE_SUPABASE_URL ?? 'https://nbbfmssnlvgfemdizwxh.supabase.co',
+    anonKey:
+      import.meta.env.VITE_SUPABASE_ANON_KEY ?? 'sb_publishable_79CFOHXx8Wvr6uZzzXyPhw_NNS0yoyT',
+    lovesTable: 'wedding_loves',
+    tagsTable: 'wedding_tags',
   },
 } as const
 

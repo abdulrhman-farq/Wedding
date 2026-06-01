@@ -22,6 +22,7 @@ interface PhotosViewProps {
   onToggleTheme: () => void
   theme: 'light' | 'dark'
   onBack?: () => void
+  onOpenOccasions?: () => void
 }
 
 export function PhotosView({
@@ -32,6 +33,7 @@ export function PhotosView({
   onToggleTheme,
   theme,
   onBack,
+  onOpenOccasions,
 }: PhotosViewProps) {
   const [density, setDensity] = useState<Density>('comfortable')
   const [selecting, setSelecting] = useState(false)
@@ -149,7 +151,9 @@ export function PhotosView({
             <button className="hd-icon" onClick={onToggleTheme} aria-label="السمة">
               <Icon name={theme === 'light' ? 'moon' : 'sun'} size={20} />
             </button>
-            <span className="avatar">{config.couple.groom.ar[0]}</span>
+            <button className="avatar" onClick={onOpenOccasions} aria-label="المناسبات">
+              {config.couple.groom.ar[0]}
+            </button>
           </div>
           <div className="toolbar">
             <span className="toolbar-title">

@@ -25,6 +25,18 @@ type IconName =
   | 'gridComfortable'
   | 'gridCompact'
   | 'add'
+  | 'menu'
+  | 'plane'
+  | 'bed'
+  | 'idcard'
+  | 'document'
+  | 'route'
+  | 'sos'
+  | 'suitcase'
+  | 'note'
+  | 'clock'
+  | 'checkCircle'
+  | 'plus'
 
 const PATHS: Record<IconName, string> = {
   close: 'M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z',
@@ -62,6 +74,22 @@ const PATHS: Record<IconName, string> = {
   gridCompact:
     'M2 2h4.2v4.2H2zM9.9 2h4.2v4.2H9.9zM17.8 2h4.2v4.2h-4.2zM2 9.9h4.2v4.2H2zM9.9 9.9h4.2v4.2H9.9zM17.8 9.9h4.2v4.2h-4.2zM2 17.8h4.2v4.2H2zM9.9 17.8h4.2v4.2H9.9zM17.8 17.8h4.2v4.2h-4.2z',
   add: 'M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z',
+  plus: 'M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z',
+  menu: 'M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z',
+  plane: 'M21 16v-2l-8-5V3.5a1.5 1.5 0 0 0-3 0V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5z',
+  bed: 'M7 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm12-2h-8V7H3V5H1v14h2v-3h18v3h2v-8a3 3 0 0 0-3-3z',
+  idcard:
+    'M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zM8 8a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm4 9H4v-1c0-1.6 2.7-2.5 4-2.5s4 .9 4 2.5v1zm8-1h-6v-1.5h6zm0-3h-6V11h6zm0-3h-6V8h6z',
+  document:
+    'M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8zm2 16H8v-2h8zm0-4H8v-2h8zm-3-5V3.5L18.5 9z',
+  route:
+    'M19 15.5a2.5 2.5 0 0 0-2.4 1.8H10a2 2 0 0 1 0-4h4a4 4 0 0 0 0-8H7.4a2.5 2.5 0 1 0 0 2H14a2 2 0 0 1 0 4h-4a4 4 0 0 0 0 8h6.6a2.5 2.5 0 1 0 2.4-3.8z',
+  sos: 'M12 2 4 5v6c0 5 3.4 9.7 8 11 4.6-1.3 8-6 8-11V5zm1 14h-2v-2h2zm0-4h-2V7h2z',
+  suitcase:
+    'M17 6V4a2 2 0 0 0-2-2H9a2 2 0 0 0-2 2v2H3v13a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6zM9 4h6v2H9zm-1 4v11H6V8zm10 11h-2V8h2z',
+  note: 'M19 3H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10l6-6V5a2 2 0 0 0-2-2zM7 8h10v2H7zm0 4h6v2H7zm7 7v-4h4z',
+  clock: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm1 11h-5v-2h3V7h2z',
+  checkCircle: 'M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 15-5-5 1.4-1.4L10 14.2l7.6-7.6L19 8z',
 }
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {

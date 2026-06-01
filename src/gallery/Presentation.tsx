@@ -36,6 +36,18 @@ export function Presentation({ photos, startIndex = 0, onClose }: PresentationPr
     return () => clearTimeout(t)
   }, [index, playing, photos.length])
 
+  // preload the next couple of slides so transitions don't stall
+  useEffect(() => {
+    for (let k = 1; k <= 2; k++) {
+      const n = photos[(index + k) % photos.length]
+      if (n) {
+        const img = new Image()
+        img.referrerPolicy = 'no-referrer'
+        img.src = n.full ?? n.poster
+      }
+    }
+  }, [index, photos])
+
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -66,7 +78,7 @@ export function Presentation({ photos, startIndex = 0, onClose }: PresentationPr
         >
           {/* blurred fill so portrait photos don't leave plain black bars */}
           <motion.img
-            src={item.poster}
+            src={item.thumb}
             alt=""
             aria-hidden
             draggable={false}

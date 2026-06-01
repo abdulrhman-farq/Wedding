@@ -17,7 +17,9 @@ export interface MediaItem {
   driveId: string
   name: string
   isVideo: boolean
-  /** Ready-to-use data URI for the card poster. */
+  /** Small image for grid thumbnails (fast). */
+  thumb: string
+  /** Medium image for full-screen deck cards. */
   poster: string
   /** Ready-to-use data URI for the high-res photo (photos only). */
   full?: string

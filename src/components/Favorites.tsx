@@ -79,7 +79,7 @@ export function Favorites({ items, supers, onBack, onOpen }: FavoritesProps) {
                 className="group relative aspect-[3/4] overflow-hidden rounded-xl ring-1 ring-line"
               >
                 <img
-                  src={item.poster}
+                  src={item.thumb}
                   alt={item.name}
                   loading="lazy"
                   decoding="async"

@@ -126,7 +126,7 @@ export function PhotoViewer({ list, index, onClose }: PhotoViewerProps) {
       <div className="pv-stage" style={{ position: 'relative', overflow: 'hidden' }}>
         {/* blurred fill */}
         <img
-          src={item.poster}
+          src={item.thumb}
           alt=""
           aria-hidden
           referrerPolicy="no-referrer"

@@ -88,7 +88,7 @@ export default function App() {
     <div className="mtl mtl-active relative h-full w-full overflow-hidden" data-theme={theme}>
       <Suspense fallback={<Loader />}>
         {current.kind === 'travel' ? (
-          <HoneymoonApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
+          <HoneymoonApp occasionId={current.id} theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
         ) : current.id === 'wedding' ? (
           <WeddingApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
         ) : (

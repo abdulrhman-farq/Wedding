@@ -19,7 +19,7 @@ export function LibraryView({ onOpen, onToggleTheme, theme, onPresent }: Library
     return (
       <PhotosView
         groups={[{ id: album.id, dateISO: '', titleAr: album.titleAr, titleEn: album.titleEn, items: album.items }]}
-        title={`${album.titleAr} · ${album.titleEn}`}
+        title={album.titleAr}
         onOpen={onOpen}
         onToggleTheme={onToggleTheme}
         theme={theme}
@@ -29,48 +29,44 @@ export function LibraryView({ onOpen, onToggleTheme, theme, onPresent }: Library
   }
 
   return (
-    <div className="flex h-full flex-col bg-[var(--m-bg)]">
-      <header className="flex items-center justify-between px-4 pb-3 pt-[calc(env(safe-area-inset-top)+14px)]">
-        <h1 className="text-[22px] font-normal text-[var(--m-on)]">المكتبة · Library</h1>
-        <button onClick={onToggleTheme} aria-label="الوضع" className="grid h-11 w-11 place-items-center rounded-full text-[var(--m-on)] active:bg-[var(--m-surface-2)]">
-          <Icon name={theme === 'light' ? 'moon' : 'sun'} />
-        </button>
+    <div className="app">
+      <header className="hd">
+        <div className="toolbar" style={{ padding: '4px 6px' }}>
+          <span style={{ fontSize: 22, fontWeight: 400, color: 'var(--on-surface)' }}>المكتبة</span>
+          <button className="hd-icon" onClick={onToggleTheme} aria-label="السمة">
+            <Icon name={theme === 'light' ? 'moon' : 'sun'} size={20} />
+          </button>
+        </div>
       </header>
 
-      <div className="mtl-scroll flex-1 overflow-y-auto px-4 pb-28">
-        <button
-          onClick={onPresent}
-          className="mb-5 flex w-full items-center gap-3 rounded-2xl bg-[var(--m-primary)] px-5 py-4 text-start text-[var(--m-on-primary)] active:scale-[0.99]"
-        >
-          <Icon name="slideshow" size={26} />
-          <span className="flex-1">
-            <span className="block text-[16px] font-medium">العرض التقديمي · Slideshow</span>
-            <span className="block text-[13px] opacity-90">كل الصور مع الموسيقى · All photos with music</span>
+      <div className="panel mtl-scroll">
+        <button className="lib-row" onClick={onPresent}>
+          <span className="lib-ic" style={{ background: 'var(--blue-tint)', color: 'var(--blue)' }}>
+            <Icon name="slideshow" size={22} />
           </span>
-          <Icon name="play" size={22} />
+          <div style={{ flex: 1 }}>
+            <div className="t">العرض التقديمي</div>
+            <div className="s">كل الصور مع الموسيقى</div>
+          </div>
+          <Icon name="play" size={20} />
         </button>
 
-        <h2 className="mb-3 text-[15px] font-medium text-[var(--m-on)]">الألبومات · Albums</h2>
-        <div className="grid grid-cols-2 gap-4">
+        <div className="sec-title">الألبومات</div>
+        <div className="albgrid">
           {ALBUMS.map((a) => (
-            <button key={a.id} onClick={() => setAlbum(a)} className="text-start">
-              <div className="relative aspect-square overflow-hidden rounded-2xl bg-[var(--m-surface-2)]">
-                <img
-                  src={a.cover.poster}
-                  alt={a.titleEn}
-                  loading="lazy"
-                  decoding="async"
-                  referrerPolicy="no-referrer"
-                  className="h-full w-full object-cover"
-                />
+            <button className="album" key={a.id} style={{ textAlign: 'start' }} onClick={() => setAlbum(a)}>
+              <div className="cover">
+                <img src={a.cover.poster} alt={a.titleAr} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                 {a.id === 'videos' && (
-                  <span className="absolute inset-0 grid place-items-center bg-black/25 text-white">
+                  <div style={{ position: 'absolute', inset: 0, display: 'grid', placeItems: 'center', background: 'rgba(0,0,0,.25)', color: '#fff' }}>
                     <Icon name="play" size={34} />
-                  </span>
+                  </div>
                 )}
               </div>
-              <p className="mt-2 truncate text-[15px] font-medium text-[var(--m-on)]">{a.titleAr}</p>
-              <p className="text-[13px] text-[var(--m-on-2)]">{toArabicNumerals(a.items.length)} عنصر</p>
+              <div className="meta">
+                <b>{a.titleAr}</b>
+                <span>{toArabicNumerals(a.items.length)} عنصر</span>
+              </div>
             </button>
           ))}
         </div>

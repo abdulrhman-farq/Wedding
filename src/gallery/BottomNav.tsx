@@ -11,32 +11,20 @@ const ITEMS: { id: Tab; icon: Parameters<typeof Icon>[0]['name']; label: string 
 
 export function BottomNav({ active, onChange }: { active: Tab; onChange: (t: Tab) => void }) {
   return (
-    <nav className="absolute inset-x-0 bottom-0 z-30 flex items-stretch justify-around border-t border-[var(--m-outline)] bg-[var(--m-surface)] pb-[env(safe-area-inset-bottom)]">
-      {ITEMS.map((it) => {
-        const on = active === it.id
-        return (
-          <button
-            key={it.id}
-            onClick={() => onChange(it.id)}
-            className="flex flex-1 flex-col items-center gap-1 py-2.5"
-            aria-label={it.label}
-            aria-current={on}
-          >
-            <span
-              className={`grid h-8 w-16 place-items-center rounded-full transition-colors ${
-                on ? 'bg-[var(--m-primary-container)] text-[var(--m-primary)]' : 'text-[var(--m-on-2)]'
-              }`}
-            >
-              <Icon name={it.icon} size={22} />
-            </span>
-            <span
-              className={`text-[11px] ${on ? 'font-medium text-[var(--m-on)]' : 'text-[var(--m-on-2)]'}`}
-            >
-              {it.label}
-            </span>
-          </button>
-        )
-      })}
+    <nav className="nav">
+      {ITEMS.map((it) => (
+        <button
+          key={it.id}
+          className={`nav-item ${active === it.id ? 'active' : ''}`}
+          onClick={() => onChange(it.id)}
+          aria-current={active === it.id}
+        >
+          <span className="pill">
+            <Icon name={it.icon} size={24} />
+          </span>
+          <span>{it.label}</span>
+        </button>
+      ))}
     </nav>
   )
 }

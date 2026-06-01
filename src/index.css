@@ -1,0 +1,120 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-bg: #100d09;
+  --color-bg2: #15110b;
+  --color-panel: #1b1610;
+  --color-ink: #f3ead7;
+  --color-muted: #bfae8e;
+  --color-gold: #cba45a;
+  --color-gold-bright: #e9d49a;
+  --color-gold-deep: #8c6f3b;
+  --color-emerald: #1f5641;
+  --color-emerald-bright: #3f8d6c;
+  --color-rose: #c98b7a;
+  --color-line: rgba(201, 164, 90, 0.28);
+
+  --font-display: 'Aref Ruqaa', serif;
+  --font-arabic: 'Amiri', serif;
+  --font-latin: 'Cormorant Garamond', serif;
+  --font-ui: 'Tajawal', sans-serif;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body {
+  background:
+    radial-gradient(1200px 700px at 50% -10%, rgba(63, 141, 108, 0.1), transparent 60%),
+    radial-gradient(900px 600px at 100% 0%, rgba(201, 164, 90, 0.1), transparent 55%),
+    linear-gradient(180deg, var(--color-bg), var(--color-bg2));
+  color: var(--color-ink);
+  font-family: var(--font-ui);
+  -webkit-font-smoothing: antialiased;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+#root {
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* film grain overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.045;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+::selection {
+  background: var(--color-gold);
+  color: #1a140b;
+}
+
+/* Gold leaf gradient text */
+.gold-text {
+  background: linear-gradient(
+    100deg,
+    var(--color-gold-deep),
+    var(--color-gold-bright) 45%,
+    #fff8e6 50%,
+    var(--color-gold-bright) 55%,
+    var(--color-gold-deep)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.no-select {
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+@keyframes confetti-fly {
+  0% {
+    transform: translate(0, 0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.3) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+.confetti-piece {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  animation: confetti-fly 900ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

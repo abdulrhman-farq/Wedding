@@ -1,0 +1,66 @@
+/* ===== Material Design 3 theme for the Google-Photos-style gallery ===== */
+
+.mtl {
+  --m-bg: #ffffff;
+  --m-surface: #ffffff;
+  --m-surface-2: #f1f3f4;
+  --m-surface-3: #e8eaed;
+  --m-on: #202124;
+  --m-on-2: #5f6368;
+  --m-outline: #dadce0;
+  --m-primary: #1a73e8;
+  --m-primary-container: #d3e3fd;
+  --m-on-primary: #ffffff;
+  --m-scrim: rgba(255, 255, 255, 0.9);
+
+  font-family: 'Roboto', system-ui, sans-serif;
+  background: var(--m-bg);
+  color: var(--m-on);
+}
+
+.mtl[data-theme='dark'] {
+  --m-bg: #202124;
+  --m-surface: #202124;
+  --m-surface-2: #2d2e30;
+  --m-surface-3: #3c4043;
+  --m-on: #e8eaed;
+  --m-on-2: #9aa0a6;
+  --m-outline: #3c4043;
+  --m-primary: #8ab4f8;
+  --m-primary-container: #1f3a5f;
+  --m-on-primary: #202124;
+  --m-scrim: rgba(32, 33, 36, 0.92);
+}
+
+/* hide the luxury film-grain over the clean Material surfaces */
+.mtl-active body::after {
+  display: none;
+}
+
+.mtl ::selection {
+  background: var(--m-primary);
+  color: var(--m-on-primary);
+}
+
+/* thin Material scrollbar */
+.mtl-scroll::-webkit-scrollbar {
+  width: 8px;
+}
+.mtl-scroll::-webkit-scrollbar-thumb {
+  background: var(--m-outline);
+  border-radius: 8px;
+}
+
+@keyframes mtl-pop {
+  0% {
+    transform: scale(0.85);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.mtl-pop {
+  animation: mtl-pop 0.18s cubic-bezier(0.2, 0, 0, 1);
+}

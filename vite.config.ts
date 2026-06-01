@@ -28,9 +28,11 @@ export default defineConfig({
         ],
       },
       workbox: {
-        // The embedded media (base64) makes the main JS chunk large; allow it to be precached for offline use.
-        maximumFileSizeToCacheInBytes: 12 * 1024 * 1024,
-        globPatterns: ['**/*.{js,css,html,svg,png,woff2}'],
+        // Offline isn't a priority — keep the precache small so first visit is fast.
+        // Large chunks (e.g. face-api) load on demand instead of precaching.
+        maximumFileSizeToCacheInBytes: 700 * 1024,
+        globPatterns: ['**/*.{css,html,svg,woff2}'],
+        navigateFallback: null,
       },
     }),
   ],

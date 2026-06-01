@@ -1,79 +1,47 @@
-import { useMemo, useState } from 'react'
-import { MEDIA } from './data/files'
-import { useDeck } from './hooks/useDeck'
+import { useState } from 'react'
+import './gallery/gallery.css'
 import type { MediaItem } from './types'
-import { config } from './config'
 import { Cover } from './components/Cover'
-import { Deck } from './components/Deck'
-import { EndScreen } from './components/EndScreen'
-import { Favorites } from './components/Favorites'
-import { Detail } from './components/Detail'
-
-type Screen = 'cover' | 'deck' | 'favorites'
+import { GROUPS } from './gallery/galleryData'
+import { useTheme } from './gallery/useTheme'
+import { BottomNav, type Tab } from './gallery/BottomNav'
+import { PhotosView } from './gallery/PhotosView'
+import { SearchView } from './gallery/SearchView'
+import { LibraryView } from './gallery/LibraryView'
+import { PhotoViewer } from './gallery/PhotoViewer'
+import { SwipeExperience } from './gallery/SwipeExperience'
 
 export default function App() {
-  const deck = useDeck(MEDIA)
-  const [screen, setScreen] = useState<Screen>('cover')
-  const [detail, setDetail] = useState<MediaItem | null>(null)
+  const [entered, setEntered] = useState(false)
+  const [tab, setTab] = useState<Tab>('photos')
+  const { theme, toggle } = useTheme()
+  const [viewer, setViewer] = useState<{ list: MediaItem[]; index: number } | null>(null)
 
-  const lovedItems = useMemo(
-    () => deck.loves.map((id) => MEDIA.find((m) => m.id === id)).filter((m): m is MediaItem => !!m),
-    [deck.loves],
-  )
+  const openViewer = (list: MediaItem[], index: number) => setViewer({ list, index })
 
-  const share = async () => {
-    const data = {
-      title: config.couple.families.ar,
-      text: `${config.couple.families.ar} · ${config.copy.invite.ar} · ${config.copy.invite.en}`,
-      url: location.href,
-    }
-    if (navigator.share) {
-      try {
-        await navigator.share(data)
-        return
-      } catch {
-        /* cancelled */
-      }
-    }
-    window.open(`https://wa.me/?text=${encodeURIComponent(`${data.text}\n${data.url}`)}`, '_blank', 'noopener')
-  }
+  if (!entered) return <Cover onStart={() => setEntered(true)} />
+
+  if (tab === 'swipe') return <SwipeExperience onExit={() => setTab('photos')} />
 
   return (
-    <main className="relative h-full w-full overflow-hidden">
-      {screen === 'cover' && <Cover onStart={() => setScreen('deck')} />}
-
-      {screen === 'deck' && !deck.isDone && (
-        <Deck
-          media={MEDIA}
-          cursor={deck.cursor}
-          total={deck.total}
-          canRewind={deck.canRewind}
-          onCommit={deck.commit}
-          onRewind={deck.rewind}
-          onTap={setDetail}
-          detailOpen={!!detail}
+    <div className="mtl mtl-active relative h-full w-full overflow-hidden" data-theme={theme}>
+      {tab === 'photos' && (
+        <PhotosView
+          groups={GROUPS}
+          onOpen={openViewer}
+          onSearchFocus={() => setTab('search')}
+          onToggleTheme={toggle}
+          theme={theme}
         />
       )}
+      {tab === 'search' && <SearchView onOpen={openViewer} onToggleTheme={toggle} theme={theme} />}
+      {tab === 'library' && <LibraryView onOpen={openViewer} onToggleTheme={toggle} theme={theme} />}
 
-      {screen === 'deck' && deck.isDone && (
-        <EndScreen
-          lovedCount={deck.loves.length}
-          onViewFavorites={() => setScreen('favorites')}
-          onRestart={deck.restart}
-          onShare={share}
-        />
+      <BottomNav active={tab} onChange={setTab} />
+
+      {viewer && (
+        <PhotoViewer list={viewer.list} index={viewer.index} onClose={() => setViewer(null)} />
       )}
-
-      {screen === 'favorites' && (
-        <Favorites
-          items={lovedItems}
-          supers={deck.supers}
-          onBack={() => setScreen('deck')}
-          onOpen={setDetail}
-        />
-      )}
-
-      {detail && <Detail item={detail} onClose={() => setDetail(null)} />}
-    </main>
+    </div>
   )
 }

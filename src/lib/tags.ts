@@ -32,6 +32,17 @@ function saveLocal(itemId: string, tags: Tag[]): void {
   }
 }
 
+/** All tags across every moment — used by the gallery's people Search. */
+export async function fetchAllTags(): Promise<Tag[]> {
+  if (!supabase) return []
+  const { data, error } = await supabase
+    .from(TABLE)
+    .select('id,item_id,x,y,name,created_at')
+    .order('created_at', { ascending: true })
+  if (error || !data) return []
+  return data as Tag[]
+}
+
 export async function fetchTags(itemId: string): Promise<Tag[]> {
   if (!supabase) return loadLocal(itemId)
   const { data, error } = await supabase

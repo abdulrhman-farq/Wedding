@@ -1,0 +1,35 @@
+/** Raw record shape as embedded in the original wedding-gallery.html FILES array. */
+export interface RawFile {
+  /** Google Drive file ID — used only for the video playback fallback. */
+  i: string
+  /** Original file name, e.g. "IMG_9852.MOV". */
+  n: string
+  /** 1 = video, 0 = photo. */
+  v: 0 | 1
+  /** Base64 JPEG poster / thumbnail (no data-URI prefix). The card image. */
+  g: string
+  /** Photos only: higher-res base64 for the full / detail view. */
+  f?: string
+}
+
+export interface MediaItem {
+  id: string
+  driveId: string
+  name: string
+  isVideo: boolean
+  /** Ready-to-use data URI for the card poster. */
+  poster: string
+  /** Ready-to-use data URI for the high-res photo (photos only). */
+  full?: string
+  /** Drive playback / view fallback URL (videos). */
+  driveUrl: string
+  /** 0-based position in the deck. */
+  index: number
+}
+
+export type SwipeDir = 'left' | 'right' | 'up'
+
+export interface SwipeRecord {
+  item: MediaItem
+  dir: SwipeDir
+}

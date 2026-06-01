@@ -94,6 +94,13 @@ project's Environment Variables.
   compatibility (kept `@use-gesture/react` for the drag/fling physics).
 - **People-tagging** (added on request): new Supabase project + `wedding_tags`
   table, live Realtime sync, taggable on all moments.
+- **Media refresh** (on request): appended **331 high-res photos** (studio session
+  + wedding) from the shared Drive folder after the original 160 moments
+  (≈491 total). These stream from Drive's public image URLs
+  (`drive.google.com/thumbnail?id=…&sz=w1200/2400`) since embedding hundreds of
+  multi-MB photos offline isn't viable — the PWA shell and the original 160 stay
+  offline, but the Drive photos need a connection. Image IDs live in
+  `src/data/drivePhotos.json`; the folder is shared "anyone with the link."
 - **Trade-off**: tag **delete** is open to anyone (a guest can remove a mis-tag).
   Flagged by the Supabase advisor as permissive; acceptable for a shared guest
   experience. Lock it down later by dropping the delete policy (tags become

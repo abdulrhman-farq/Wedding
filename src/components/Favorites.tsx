@@ -78,7 +78,14 @@ export function Favorites({ items, supers, onBack, onOpen }: FavoritesProps) {
                 onClick={() => onOpen(item)}
                 className="group relative aspect-[3/4] overflow-hidden rounded-xl ring-1 ring-line"
               >
-                <img src={item.poster} alt={item.name} className="h-full w-full object-cover" />
+                <img
+                  src={item.poster}
+                  alt={item.name}
+                  loading="lazy"
+                  decoding="async"
+                  referrerPolicy="no-referrer"
+                  className="h-full w-full bg-bg2 object-cover"
+                />
                 {supers.includes(item.id) && (
                   <span className="absolute start-1.5 top-1.5 text-gold-bright drop-shadow">⭐</span>
                 )}

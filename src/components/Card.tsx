@@ -14,7 +14,9 @@ export function Card({ item, total }: CardProps) {
         src={item.poster}
         alt={item.name}
         draggable={false}
-        className="pointer-events-none absolute inset-0 h-full w-full select-none object-cover"
+        decoding="async"
+        referrerPolicy="no-referrer"
+        className="pointer-events-none absolute inset-0 h-full w-full select-none bg-bg2 object-cover"
       />
 
       {/* gold hairline border */}

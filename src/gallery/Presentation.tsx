@@ -57,25 +57,35 @@ export function Presentation({ photos, startIndex = 0, onClose }: PresentationPr
     <div className="fixed inset-0 z-50 select-none overflow-hidden bg-black">
       {/* slides */}
       <AnimatePresence>
-        <motion.img
+        <motion.div
           key={item.id}
-          src={item.full ?? item.poster}
-          alt=""
-          draggable={false}
-          decoding="async"
-          referrerPolicy="no-referrer"
-          className="absolute inset-0 h-full w-full object-cover"
-          initial={{ opacity: 0, scale: reduce ? 1 : 1.05 }}
-          animate={{
-            opacity: 1,
-            scale: reduce ? 1 : 1.15,
-            transition: {
-              opacity: { duration: 1.2, ease: 'easeInOut' },
-              scale: { duration: SLIDE_MS / 1000 + 1.2, ease: 'linear' },
-            },
-          }}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1, transition: { duration: 1.2, ease: 'easeInOut' } }}
           exit={{ opacity: 0, transition: { duration: 1.2, ease: 'easeInOut' } }}
-        />
+        >
+          {/* blurred fill so portrait photos don't leave plain black bars */}
+          <motion.img
+            src={item.poster}
+            alt=""
+            aria-hidden
+            draggable={false}
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="absolute inset-0 h-full w-full scale-110 object-cover opacity-45 blur-2xl"
+            initial={{ scale: reduce ? 1.1 : 1.1 }}
+            animate={{ scale: reduce ? 1.1 : 1.22, transition: { duration: SLIDE_MS / 1000 + 1.2, ease: 'linear' } }}
+          />
+          {/* the full photo, always entirely visible (fit to screen) */}
+          <img
+            src={item.full ?? item.poster}
+            alt=""
+            draggable={false}
+            decoding="async"
+            referrerPolicy="no-referrer"
+            className="absolute inset-0 h-full w-full object-contain"
+          />
+        </motion.div>
       </AnimatePresence>
 
       {/* vignette + scrims for legibility */}

@@ -44,7 +44,6 @@ export default function App() {
           onSearchFocus={() => setTab('search')}
           onToggleTheme={toggle}
           theme={theme}
-          onPresent={() => setPresenting(true)}
         />
       )}
       {tab === 'search' && <SearchView onOpen={openViewer} onToggleTheme={toggle} theme={theme} />}

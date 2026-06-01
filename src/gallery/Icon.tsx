@@ -21,6 +21,10 @@ type IconName =
   | 'musicOff'
   | 'slideshow'
   | 'pause'
+  | 'gridLarge'
+  | 'gridComfortable'
+  | 'gridCompact'
+  | 'add'
 
 const PATHS: Record<IconName, string> = {
   close: 'M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z',
@@ -53,6 +57,11 @@ const PATHS: Record<IconName, string> = {
   slideshow:
     'M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm7 3v8l6-4z',
   pause: 'M6 5h4v14H6zm8 0h4v14h-4z',
+  gridLarge: 'M4 4h16v16H4z',
+  gridComfortable: 'M3 3h7.5v7.5H3zm10.5 0H21v7.5h-7.5zM3 13.5h7.5V21H3zm10.5 0H21V21h-7.5z',
+  gridCompact:
+    'M2 2h4.2v4.2H2zM9.9 2h4.2v4.2H9.9zM17.8 2h4.2v4.2h-4.2zM2 9.9h4.2v4.2H2zM9.9 9.9h4.2v4.2H9.9zM17.8 9.9h4.2v4.2h-4.2zM2 17.8h4.2v4.2H2zM9.9 17.8h4.2v4.2H9.9zM17.8 17.8h4.2v4.2h-4.2z',
+  add: 'M11 11V5h2v6h6v2h-6v6h-2v-6H5v-2z',
 }
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {

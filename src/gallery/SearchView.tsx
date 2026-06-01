@@ -17,7 +17,6 @@ interface Person {
   name: string
   items: MediaItem[]
 }
-
 interface Filter {
   label: string
   items: MediaItem[]
@@ -25,11 +24,11 @@ interface Filter {
 
 const byId = new Map(MEDIA.map((m) => [m.id, m]))
 
-const CATEGORIES: { id: string; ar: string; en: string; items: () => MediaItem[] }[] = [
-  { id: 'photos', ar: 'صور', en: 'Photos', items: () => MEDIA.filter((m) => !m.isVideo) },
-  { id: 'videos', ar: 'فيديو', en: 'Videos', items: () => MEDIA.filter((m) => m.isVideo) },
-  { id: 'studio', ar: 'الاستديو', en: 'Studio', items: () => GROUPS.find((g) => g.id === 'studio')!.items },
-  { id: 'wedding', ar: 'يوم الزفاف', en: 'Wedding day', items: () => GROUPS.find((g) => g.id === 'wedding')!.items },
+const CATEGORIES: { ar: string; items: () => MediaItem[] }[] = [
+  { ar: 'صور', items: () => MEDIA.filter((m) => !m.isVideo) },
+  { ar: 'فيديو', items: () => MEDIA.filter((m) => m.isVideo) },
+  { ar: 'جلسة الاستديو', items: () => GROUPS.find((g) => g.id === 'studio')!.items },
+  { ar: 'يوم الزفاف', items: () => GROUPS.find((g) => g.id === 'wedding')!.items },
 ]
 
 export function SearchView({ onOpen, onToggleTheme, theme }: SearchViewProps) {
@@ -62,9 +61,7 @@ export function SearchView({ onOpen, onToggleTheme, theme }: SearchViewProps) {
       .sort((a, b) => b.items.length - a.items.length)
   }, [tags])
 
-  const shownPeople = query.trim()
-    ? people.filter((p) => p.name.includes(query.trim()))
-    : people
+  const shownPeople = query.trim() ? people.filter((p) => p.name.includes(query.trim())) : people
 
   if (filter) {
     return (
@@ -80,74 +77,65 @@ export function SearchView({ onOpen, onToggleTheme, theme }: SearchViewProps) {
   }
 
   return (
-    <div className="flex h-full flex-col bg-[var(--m-bg)]">
-      <header className="px-4 pb-3 pt-[calc(env(safe-area-inset-top)+14px)]">
-        <div className="flex h-12 items-center gap-3 rounded-full bg-[var(--m-surface-2)] px-4 text-[var(--m-on)]">
-          <Icon name="search" />
+    <div className="app">
+      <header className="hd">
+        <div className="searchbar">
+          <span className="mi">
+            <Icon name="search" size={22} />
+          </span>
           <input
             autoFocus
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="ابحث عن شخص · Search people"
-            className="flex-1 bg-transparent text-[15px] outline-none placeholder:text-[var(--m-on-2)]"
+            placeholder="ابحث عن أشخاص أو لحظات"
           />
-          {query && (
-            <button onClick={() => setQuery('')} aria-label="مسح" className="text-[var(--m-on-2)]">
-              <Icon name="close" size={18} />
-            </button>
-          )}
+          <button className="hd-icon" onClick={onToggleTheme} aria-label="السمة">
+            <Icon name={theme === 'light' ? 'moon' : 'sun'} size={20} />
+          </button>
         </div>
       </header>
 
-      <div className="mtl-scroll flex-1 overflow-y-auto px-4 pb-28">
-        {/* categories */}
-        <h2 className="mb-3 text-[15px] font-medium text-[var(--m-on)]">التصنيفات · Categories</h2>
-        <div className="mb-6 flex flex-wrap gap-2">
-          {CATEGORIES.map((c) => (
-            <button
-              key={c.id}
-              onClick={() => setFilter({ label: `${c.ar} · ${c.en}`, items: c.items() })}
-              className="rounded-full border border-[var(--m-outline)] px-4 py-2 text-[14px] text-[var(--m-on)] active:bg-[var(--m-surface-2)]"
-            >
-              {c.ar} · {c.en}
-            </button>
-          ))}
+      <div className="panel mtl-scroll">
+        <div className="sec-title">
+          الأشخاص <span style={{ color: 'var(--on-surface-3)', fontWeight: 400, fontSize: 13 }}>· من حضر</span>
         </div>
-
-        {/* people */}
-        <h2 className="mb-3 flex items-center gap-2 text-[15px] font-medium text-[var(--m-on)]">
-          <Icon name="people" size={18} /> الأشخاص · People
-        </h2>
         {people.length === 0 ? (
-          <p className="text-[14px] leading-relaxed text-[var(--m-on-2)]">
-            لا يوجد أشخاص موسومون بعد.
-            <br />
-            افتح أي صورة واضغط <span className="font-medium">وسم</span> لتسمية الأشخاص — وستظهر هنا للجميع.
+          <p style={{ color: 'var(--on-surface-2)', fontSize: 14, lineHeight: 1.7, margin: '0 4px' }}>
+            لا يوجد أشخاص موسومون بعد. افتح أي صورة واضغط «وسم» لتسمية الأشخاص — وستظهر هنا للجميع.
           </p>
         ) : (
-          <div className="grid grid-cols-4 gap-3 sm:grid-cols-6">
+          <div className="chips">
             {shownPeople.map((p) => (
-              <button
-                key={p.name}
-                onClick={() => setFilter({ label: p.name, items: p.items })}
-                className="flex flex-col items-center gap-1.5"
-              >
-                <span className="relative h-16 w-16 overflow-hidden rounded-full bg-[var(--m-surface-2)] ring-1 ring-[var(--m-outline)]">
-                  <img
-                    src={p.items[0].poster}
-                    alt={p.name}
-                    loading="lazy"
-                    decoding="async"
-                    referrerPolicy="no-referrer"
-                    className="h-full w-full object-cover"
-                  />
+              <button className="facechip" key={p.name} onClick={() => setFilter({ label: p.name, items: p.items })}>
+                <span className="face">
+                  <img src={p.items[0].poster} alt={p.name} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
                 </span>
-                <span className="max-w-[72px] truncate text-[12px] text-[var(--m-on)]">{p.name}</span>
-                <span className="text-[11px] text-[var(--m-on-2)]">{toArabicNumerals(p.items.length)}</span>
+                <span>{p.name}</span>
               </button>
             ))}
           </div>
         )}
+
+        <div className="sec-title">اللحظات</div>
+        <div className="albgrid">
+          {CATEGORIES.map((c) => {
+            const items = c.items()
+            return (
+              <button className="album" key={c.ar} style={{ textAlign: 'start' }} onClick={() => setFilter({ label: c.ar, items })}>
+                <div className="cover">
+                  <img src={items[0].poster} alt={c.ar} loading="lazy" decoding="async" referrerPolicy="no-referrer" />
+                  <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(0deg,rgba(0,0,0,.55),transparent 60%)' }} />
+                  <b style={{ position: 'absolute', insetInlineStart: 12, bottom: 10, color: '#fff', fontSize: 16, fontWeight: 500 }}>
+                    {c.ar}
+                  </b>
+                </div>
+                <div className="meta">
+                  <span>{toArabicNumerals(items.length)} عنصر</span>
+                </div>
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )

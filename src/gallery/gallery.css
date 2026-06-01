@@ -664,6 +664,28 @@
   background: var(--surface-2);
 }
 
+/* lazy-load spinner */
+.nm-loader {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  background: var(--m-bg, #100d09);
+}
+.nm-spin {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 3px solid rgba(201, 164, 90, 0.25);
+  border-top-color: #cba45a;
+  animation: nm-spin 0.8s linear infinite;
+}
+@keyframes nm-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ===================== travel hub (honeymoon) ===================== */
 .mtl .trip-hero {
   position: relative;

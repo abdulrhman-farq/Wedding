@@ -1,12 +1,17 @@
-import { useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import './gallery/gallery.css'
 import { Cover } from './components/Cover'
 import { useTheme } from './gallery/useTheme'
 import { music } from './lib/audio'
 import { SEED_OCCASIONS, type Occasion, type OccasionKind } from './occasions/occasions'
 import { OccasionDrawer } from './occasions/OccasionDrawer'
-import { WeddingApp } from './occasions/WeddingApp'
-import { HoneymoonApp } from './occasions/honeymoon/HoneymoonApp'
+
+// Heavy parts (gallery, framer-motion, supabase, the ~5 MB embedded photo data) are
+// split out so the cover paints instantly; they load lazily in the background.
+const WeddingApp = lazy(() => import('./occasions/WeddingApp').then((m) => ({ default: m.WeddingApp })))
+const HoneymoonApp = lazy(() =>
+  import('./occasions/honeymoon/HoneymoonApp').then((m) => ({ default: m.HoneymoonApp })),
+)
 
 const ACCENTS = [
   'linear-gradient(135deg,#c98b7a,#8c6f3b)',
@@ -14,6 +19,14 @@ const ACCENTS = [
   'linear-gradient(135deg,#1A73E8,#6a5acd)',
   'linear-gradient(135deg,#e9a23b,#c0392b)',
 ]
+
+function Loader() {
+  return (
+    <div className="nm-loader">
+      <span className="nm-spin" />
+    </div>
+  )
+}
 
 export default function App() {
   const [entered, setEntered] = useState(false)
@@ -23,6 +36,13 @@ export default function App() {
   const [drawer, setDrawer] = useState(false)
 
   const current = occasions.find((o) => o.id === currentId) ?? occasions[0]
+
+  // Warm the gallery chunk in the background while the cover is shown,
+  // so tapping ابدأ is instant.
+  useEffect(() => {
+    const t = setTimeout(() => void import('./occasions/WeddingApp'), 300)
+    return () => clearTimeout(t)
+  }, [])
 
   // Background music belongs to the Wedding occasion only — pause it elsewhere.
   const wasPlaying = useRef(false)
@@ -66,14 +86,15 @@ export default function App() {
 
   return (
     <div className="mtl mtl-active relative h-full w-full overflow-hidden" data-theme={theme}>
-      {current.kind === 'travel' ? (
-        <HoneymoonApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
-      ) : current.id === 'wedding' ? (
-        <WeddingApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
-      ) : (
-        // a freshly added "memories" occasion with no media yet
-        <EmptyOccasion name={current.name} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
-      )}
+      <Suspense fallback={<Loader />}>
+        {current.kind === 'travel' ? (
+          <HoneymoonApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
+        ) : current.id === 'wedding' ? (
+          <WeddingApp theme={theme} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
+        ) : (
+          <EmptyOccasion name={current.name} onToggleTheme={toggle} onOpenOccasions={() => setDrawer(true)} />
+        )}
+      </Suspense>
 
       <OccasionDrawer
         open={drawer}

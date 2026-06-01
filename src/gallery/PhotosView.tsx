@@ -16,6 +16,7 @@ interface PhotosViewProps {
   onToggleTheme: () => void
   theme: 'light' | 'dark'
   onBack?: () => void
+  onPresent?: () => void
 }
 
 export function PhotosView({
@@ -26,6 +27,7 @@ export function PhotosView({
   onToggleTheme,
   theme,
   onBack,
+  onPresent,
 }: PhotosViewProps) {
   const [density, setDensity] = useState<Density>('comfortable')
   const [selecting, setSelecting] = useState(false)
@@ -134,6 +136,11 @@ export function PhotosView({
               >
                 <Icon name="search" />
                 <span className="text-[15px]">ابحث في ذكرياتنا · Search</span>
+              </button>
+            )}
+            {onPresent && (
+              <button onClick={onPresent} aria-label="عرض تقديمي · Slideshow" className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-[var(--m-primary)] active:bg-[var(--m-surface-2)]">
+                <Icon name="slideshow" />
               </button>
             )}
             <button onClick={cycleDensity} aria-label="كثافة العرض" className="grid h-11 w-11 shrink-0 place-items-center rounded-full text-[var(--m-on)] active:bg-[var(--m-surface-2)]">

@@ -9,9 +9,10 @@ interface LibraryViewProps {
   onOpen: (list: MediaItem[], index: number) => void
   onToggleTheme: () => void
   theme: 'light' | 'dark'
+  onPresent: () => void
 }
 
-export function LibraryView({ onOpen, onToggleTheme, theme }: LibraryViewProps) {
+export function LibraryView({ onOpen, onToggleTheme, theme, onPresent }: LibraryViewProps) {
   const [album, setAlbum] = useState<Album | null>(null)
 
   if (album) {
@@ -37,6 +38,18 @@ export function LibraryView({ onOpen, onToggleTheme, theme }: LibraryViewProps) 
       </header>
 
       <div className="mtl-scroll flex-1 overflow-y-auto px-4 pb-28">
+        <button
+          onClick={onPresent}
+          className="mb-5 flex w-full items-center gap-3 rounded-2xl bg-[var(--m-primary)] px-5 py-4 text-start text-[var(--m-on-primary)] active:scale-[0.99]"
+        >
+          <Icon name="slideshow" size={26} />
+          <span className="flex-1">
+            <span className="block text-[16px] font-medium">العرض التقديمي · Slideshow</span>
+            <span className="block text-[13px] opacity-90">كل الصور مع الموسيقى · All photos with music</span>
+          </span>
+          <Icon name="play" size={22} />
+        </button>
+
         <h2 className="mb-3 text-[15px] font-medium text-[var(--m-on)]">الألبومات · Albums</h2>
         <div className="grid grid-cols-2 gap-4">
           {ALBUMS.map((a) => (

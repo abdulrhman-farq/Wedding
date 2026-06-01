@@ -34,10 +34,15 @@ export const config = {
     supabaseLeaderboard: false,
     /** Gold-sparkle confetti burst on a Love swipe (respects prefers-reduced-motion). */
     confetti: true,
-    /** Soft, mutable background music toggle (off by default). */
-    backgroundMusic: false,
+    /** Soft, looping background music that starts on the cover's Start tap. */
+    backgroundMusic: true,
     /** Light haptics on commit where supported. */
     haptics: true,
+  },
+
+  music: {
+    src: '/song.mp3',
+    volume: 0.55,
   },
 
   supabase: {

@@ -6,8 +6,8 @@ export interface RawFile {
   n: string
   /** 1 = video, 0 = photo. */
   v: 0 | 1
-  /** Base64 JPEG poster / thumbnail (no data-URI prefix). The card image. */
-  g: string
+  /** Base64 JPEG poster / thumbnail (photos only now; videos stream from Drive). */
+  g?: string
   /** Photos only: higher-res base64 for the full / detail view. */
   f?: string
 }

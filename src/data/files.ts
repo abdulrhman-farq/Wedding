@@ -7,27 +7,30 @@ const JPEG = 'data:image/jpeg;base64,'
 const rawFiles = raw as RawFile[]
 const driveFiles = drivePhotos as { i: string; n: string }[]
 
-/** Public Google Drive image URL at a given pixel width (folder shared "anyone with link"). */
+/** Public Google Drive image URL at a given pixel width. */
 const driveImg = (id: string, w: number) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`
 
 /**
- * The original 160 moments (5 photos + 155 video clips), embedded as base64 so
- * they load instantly and work offline.
+ * The original 160 moments: 155 video clips (posters streamed from Drive) and
+ * 5 photos (kept embedded as base64 — they're raw DNG, so more reliable inline).
  */
-const embedded: MediaItem[] = rawFiles.map((r, index) => ({
-  id: r.i || `item-${index}`,
-  driveId: r.i,
-  name: r.n,
-  isVideo: r.v === 1,
-  poster: JPEG + r.g,
-  full: r.f ? JPEG + r.f : undefined,
-  driveUrl: `https://drive.google.com/file/d/${r.i}/view`,
-  remote: false,
-  index,
-}))
+const embedded: MediaItem[] = rawFiles.map((r, index) => {
+  const isVideo = r.v === 1
+  return {
+    id: r.i || `item-${index}`,
+    driveId: r.i,
+    name: r.n,
+    isVideo,
+    poster: isVideo ? driveImg(r.i, 1000) : JPEG + (r.g ?? ''),
+    full: isVideo ? undefined : r.f ? JPEG + r.f : undefined,
+    driveUrl: `https://drive.google.com/file/d/${r.i}/view`,
+    remote: isVideo,
+    index,
+  }
+})
 
 /**
- * The 331 high-res photos from the shared Drive folder (studio session + wedding),
+ * The 331 high-res photos from the shared Drive folder (studio + wedding),
  * streamed on demand from Drive's public image URLs.
  */
 const drive: MediaItem[] = driveFiles.map((r, i) => ({

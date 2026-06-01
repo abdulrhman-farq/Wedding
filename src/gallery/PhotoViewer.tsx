@@ -131,8 +131,20 @@ export function PhotoViewer({ list, index, onClose }: PhotoViewerProps) {
         </button>
       </header>
 
+      {/* blurred fill backdrop so portrait photos don't leave plain black bars */}
+      <img
+        key={`bg-${item.id}`}
+        src={item.poster}
+        alt=""
+        aria-hidden
+        draggable={false}
+        decoding="async"
+        referrerPolicy="no-referrer"
+        className="pointer-events-none absolute inset-0 h-full w-full scale-110 object-cover opacity-35 blur-2xl"
+      />
+
       {/* stage */}
-      <div className="flex flex-1 items-center justify-center overflow-hidden">
+      <div className="relative z-[1] flex flex-1 items-center justify-center overflow-hidden">
         <motion.div
           key={item.id}
           {...(bind() as unknown as React.ComponentProps<typeof motion.div>)}

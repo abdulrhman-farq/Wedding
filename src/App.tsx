@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import './gallery/gallery.css'
 import { Cover } from './components/Cover'
 import { useTheme } from './gallery/useTheme'
@@ -23,6 +23,20 @@ export default function App() {
   const [drawer, setDrawer] = useState(false)
 
   const current = occasions.find((o) => o.id === currentId) ?? occasions[0]
+
+  // Background music belongs to the Wedding occasion only — pause it elsewhere.
+  const wasPlaying = useRef(false)
+  useEffect(() => {
+    if (current.id === 'wedding') {
+      if (wasPlaying.current) {
+        void music.play()
+        wasPlaying.current = false
+      }
+    } else if (music.isPlaying()) {
+      wasPlaying.current = true
+      music.pause()
+    }
+  }, [current.id])
 
   const addOccasion = (name: string, kind: OccasionKind) => {
     const id = `occ-${Date.now()}`

@@ -114,7 +114,9 @@ export function Detail({ item, onClose }: DetailProps) {
               src={still}
               alt={item.name}
               draggable={false}
-              className="block max-h-[82vh] max-w-[94vw] select-none rounded-2xl object-contain ring-1 ring-line"
+              decoding="async"
+              referrerPolicy="no-referrer"
+              className="block max-h-[82vh] max-w-[94vw] select-none rounded-2xl bg-bg2 object-contain ring-1 ring-line"
             />
 
             {/* play overlay for videos (not while tagging) */}

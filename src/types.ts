@@ -23,6 +23,8 @@ export interface MediaItem {
   full?: string
   /** Drive playback / view fallback URL (videos). */
   driveUrl: string
+  /** True when poster/full are remote Drive URLs (vs embedded base64). */
+  remote: boolean
   /** 0-based position in the deck. */
   index: number
 }

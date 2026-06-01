@@ -17,6 +17,10 @@ type IconName =
   | 'chevronLeft'
   | 'chevronRight'
   | 'people'
+  | 'music'
+  | 'musicOff'
+  | 'slideshow'
+  | 'pause'
 
 const PATHS: Record<IconName, string> = {
   close: 'M19 6.4 17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z',
@@ -43,6 +47,12 @@ const PATHS: Record<IconName, string> = {
   chevronRight: 'M8.6 7.4 10 6l6 6-6 6-1.4-1.4L13.2 12z',
   people:
     'M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5C15 14.17 10.33 13 8 13zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z',
+  music: 'M12 3v10.55A4 4 0 1 0 14 17V7h4V3z',
+  musicOff:
+    'M12 3v3.18l2-2V3zm6 0h-4v1.18L18 8V3zM4.3 3 3 4.3 12 13.3v.25A4 4 0 1 0 14 17v-.7l5.7 5.7 1.3-1.3z',
+  slideshow:
+    'M3 5h18a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1zm7 3v8l6-4z',
+  pause: 'M6 5h4v14H6zm8 0h4v14h-4z',
 }
 
 export function Icon({ name, size = 22 }: { name: IconName; size?: number }) {

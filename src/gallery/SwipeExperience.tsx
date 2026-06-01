@@ -8,6 +8,7 @@ import { EndScreen } from '../components/EndScreen'
 import { Favorites } from '../components/Favorites'
 import { Detail } from '../components/Detail'
 import { Icon } from './Icon'
+import { MusicToggle } from './MusicToggle'
 
 /** The original Tinder-style deck, presented as one tab of the app. */
 export function SwipeExperience({ onExit }: { onExit: () => void }) {
@@ -80,6 +81,8 @@ export function SwipeExperience({ onExit }: { onExit: () => void }) {
           onOpen={setDetail}
         />
       )}
+
+      {!favorites && <MusicToggle className="absolute end-4 top-[calc(env(safe-area-inset-top)+12px)] z-30 !h-10 !w-10" />}
 
       {detail && <Detail item={detail} onClose={() => setDetail(null)} />}
     </main>

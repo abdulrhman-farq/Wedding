@@ -9,30 +9,14 @@ export default defineConfig({
     react(),
     tailwindcss(),
     VitePWA({
+      // Offline/PWA caused stale "black screen" loads on redeploys; we don't need
+      // offline. selfDestroying ships a service worker that unregisters itself and
+      // clears old caches on every device, so the site always loads fresh.
+      selfDestroying: true,
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg'],
-      manifest: {
-        name: 'النقيدان و المحيسن',
-        short_name: 'النقيدان والمحيسن',
-        description: 'اسحب لتتصفّح ذكرياتنا · Swipe through our wedding memories',
-        lang: 'ar',
-        dir: 'rtl',
-        theme_color: '#100d09',
-        background_color: '#100d09',
-        display: 'standalone',
-        orientation: 'portrait',
-        icons: [
-          { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png' },
-          { src: 'icon-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
-        ],
-      },
+      injectRegister: 'auto',
       workbox: {
-        // Offline isn't a priority — keep the precache small so first visit is fast.
-        // Large chunks (e.g. face-api) load on demand instead of precaching.
-        maximumFileSizeToCacheInBytes: 700 * 1024,
-        globPatterns: ['**/*.{css,html,svg,woff2}'],
-        navigateFallback: null,
+        globPatterns: [],
       },
     }),
   ],

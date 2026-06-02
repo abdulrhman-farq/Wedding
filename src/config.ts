@@ -50,7 +50,7 @@ export const config = {
   /** Whole-site PIN lock. Note: a client-side PIN hides the site from casual
    *  visitors but isn't strong security (the code ships in the app). */
   access: {
-    enabled: true,
+    enabled: false,
     pin: '2054',
   },
 

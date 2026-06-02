@@ -8,7 +8,8 @@ const rawFiles = raw as RawFile[]
 const driveFiles = drivePhotos as { i: string; n: string }[]
 
 /** Public Google Drive image URL at a given pixel width. */
-const driveImg = (id: string, w: number) => `https://drive.google.com/thumbnail?id=${id}&sz=w${w}`
+// Google's image CDN serves public Drive files directly (no drive.google.com redirect) → much faster.
+const driveImg = (id: string, w: number) => `https://lh3.googleusercontent.com/d/${id}=w${w}`
 
 /**
  * The original 160 moments: 155 video clips (posters streamed from Drive) and

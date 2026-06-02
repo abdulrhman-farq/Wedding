@@ -1,6 +1,8 @@
 import { lazy, Suspense, useEffect, useRef, useState } from 'react'
 import './gallery/gallery.css'
 import { Cover } from './components/Cover'
+import { PinGate } from './components/PinGate'
+import { config } from './config'
 import { useTheme } from './gallery/useTheme'
 import { music } from './lib/audio'
 import { SEED_OCCASIONS, type Occasion, type OccasionKind } from './occasions/occasions'
@@ -29,6 +31,14 @@ function Loader() {
 }
 
 export default function App() {
+  const [unlocked, setUnlocked] = useState(() => {
+    if (!config.access.enabled) return true
+    try {
+      return localStorage.getItem('nm_unlocked') === '1'
+    } catch {
+      return false
+    }
+  })
   const [entered, setEntered] = useState(false)
   const { theme, toggle } = useTheme()
   const [occasions, setOccasions] = useState<Occasion[]>(SEED_OCCASIONS)
@@ -72,6 +82,8 @@ export default function App() {
     setCurrentId(id)
     setDrawer(false)
   }
+
+  if (!unlocked) return <PinGate onUnlock={() => setUnlocked(true)} />
 
   if (!entered) {
     return (

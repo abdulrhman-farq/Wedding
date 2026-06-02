@@ -47,6 +47,13 @@ export const config = {
     volume: 0.55,
   },
 
+  /** Whole-site PIN lock. Note: a client-side PIN hides the site from casual
+   *  visitors but isn't strong security (the code ships in the app). */
+  access: {
+    enabled: true,
+    pin: '2054',
+  },
+
   supabase: {
     // Publishable keys are public by design (protected by Row Level Security).
     // Env vars take precedence so the project can be re-pointed without a code change.

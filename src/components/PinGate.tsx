@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { config } from '../config'
 
 const PIN = config.access.pin
@@ -8,16 +8,12 @@ const AR2EN: Record<string, string> = { '٠': '0', '١': '1', '٢': '2', '٣': '
 export function PinGate({ onUnlock }: { onUnlock: () => void }) {
   const [pin, setPin] = useState('')
   const [err, setErr] = useState(false)
+  const pinRef = useRef('')
+  pinRef.current = pin
 
-  const press = (k: string) => {
-    if (k === '') return
-    if (k === '⌫') {
-      setErr(false)
-      setPin((p) => p.slice(0, -1))
-      return
-    }
+  const addDigit = (d: string) => {
     setErr(false)
-    const next = (pin + AR2EN[k]).slice(0, PIN.length)
+    const next = (pinRef.current + d).slice(0, PIN.length)
     setPin(next)
     if (next.length === PIN.length) {
       if (next === PIN) {
@@ -32,6 +28,33 @@ export function PinGate({ onUnlock }: { onUnlock: () => void }) {
         setTimeout(() => setPin(''), 450)
       }
     }
+  }
+
+  // allow typing the PIN on a physical keyboard (Latin or Arabic digits)
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Backspace') {
+        setErr(false)
+        setPin((p) => p.slice(0, -1))
+      } else if (/^[0-9]$/.test(e.key)) {
+        addDigit(e.key)
+      } else if (AR2EN[e.key]) {
+        addDigit(AR2EN[e.key])
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const press = (k: string) => {
+    if (k === '') return
+    if (k === '⌫') {
+      setErr(false)
+      setPin((p) => p.slice(0, -1))
+      return
+    }
+    addDigit(AR2EN[k])
   }
 
   const dot = (filled: boolean): React.CSSProperties => ({
